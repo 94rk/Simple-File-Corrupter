@@ -2,14 +2,16 @@
 {
     internal class Program
     {
+        public static Random ran = new();
         public static string? filePath;
+        public static string? fileName;
         public static int chosenOption = 0;
         public static int sizeMb = 0;
 
         static void Main(string[] args)
         {
             bool fileExists = false;
-            filePath = Environment.ProcessPath ?? "none";
+            filePath = "none";
 
             int fileNameStartPos = filePath.LastIndexOf('\\') + 1;
             int fileNameLength = filePath.Length - fileNameStartPos;
@@ -20,7 +22,7 @@
                 {
                     Console.Write("Enter the file path (can drag and drop): ");
                     string? inp = Console.ReadLine();
-                    filePath = inp.Length > 0 ? inp : filePath;
+                    filePath = inp?.Length > 0 ? inp : filePath;
                     filePath = filePath.Replace("\"", "");
 
                     fileNameStartPos = filePath.LastIndexOf('\\') + 1;
@@ -29,7 +31,9 @@
                     if (File.Exists(filePath)) fileExists = true;
                 }
 
-                Console.WriteLine("\n" + "Selected file: " + filePath.Substring(fileNameStartPos, fileNameLength) + "\n");
+                fileName = filePath.Substring(fileNameStartPos, fileNameLength);
+
+                Console.WriteLine("\n" + "Selected file: " + fileName + "\n");
 
                 Messages.DisplayAllOptions();
                 Console.Write("\n" + "Choose an option: ");
@@ -44,9 +48,6 @@
                     ValidateChoice(Console.ReadLine(), ref isChoiceValid);
                 }
 
-                string opt = Messages.options[chosenOption - 1];
-                Console.WriteLine("\n" + "You chose: " + opt.Substring(3, opt.Length - 3) + "\n");
-
                 Corrupt();
                 fileExists = false;
             }
@@ -57,12 +58,21 @@
             byte[]? bytes;
 
             try { bytes = File.ReadAllBytes(filePath); }
-            catch (IOException) { Console.WriteLine($"File must be smaller than 2.14 GB!"); return; }
+            catch (IOException) { Console.WriteLine("An error occured, please try again"); return; }
 
             if (bytes != null)
             {
-                Console.Write("File size is " + (float)bytes.Length / 1_000 + " KB, ");
-                Console.WriteLine("wow my shit WORKS AYYYY \n");
+                long start = DateTimeOffset.Now.ToUnixTimeMilliseconds();
+
+                ran.NextBytes(bytes);
+                File.WriteAllBytes(filePath, bytes);
+
+                long end = DateTimeOffset.Now.ToUnixTimeMilliseconds();
+
+                Console.WriteLine($"Done corrupting {fileName} in {end - start} ms");
+                Console.WriteLine("Press any key to continue");
+                Console.ReadKey(true);
+                Console.Clear();
             }
         }
 
@@ -74,8 +84,6 @@
 
             validBool = succeeded;
             chosenOption = succeeded ? cache : 0;
-
-            return;
         }
     }
 }
