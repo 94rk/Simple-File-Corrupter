@@ -7,6 +7,7 @@
         public static string? fileName;
         public static int chosenOption = 0;
         public static int sizeMb = 0;
+        public static bool running = true;
 
         static void Main(string[] args)
         {
@@ -16,7 +17,7 @@
             int fileNameStartPos = filePath.LastIndexOf('\\') + 1;
             int fileNameLength = filePath.Length - fileNameStartPos;
 
-            while (true)
+            while (running)
             {
                 while (!fileExists)
                 {
@@ -48,7 +49,26 @@
                     ValidateChoice(Console.ReadLine(), ref isChoiceValid);
                 }
 
-                Corrupt();
+                switch (chosenOption)
+                {
+                    case 1:
+                        {
+                            Corrupt();
+                            break;
+                        }
+                    case 2:
+                        {
+                            Console.WriteLine("This feature is a work in progress, expect it soon \n");
+                            break;
+                        }
+                }
+
+                Console.WriteLine("Press any key to corrupt a new file, q to quit");
+                char i = Console.ReadKey(true).KeyChar;
+                Console.Clear();
+
+                if (i == 'q' || i == 'Q') running = false;
+
                 fileExists = false;
             }
         }
@@ -70,9 +90,6 @@
                 long end = DateTimeOffset.Now.ToUnixTimeMilliseconds();
 
                 Console.WriteLine($"Done corrupting {fileName} in {end - start} ms");
-                Console.WriteLine("Press any key to continue");
-                Console.ReadKey(true);
-                Console.Clear();
             }
         }
 

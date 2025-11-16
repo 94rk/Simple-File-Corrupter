@@ -11,7 +11,7 @@ namespace FileCorrupter
         public static string[] options = new string[]
         {
             "1. Corrupt",
-            "2. Corrupt and change size",
+            "2. Corrupt and change size (WIP)",
         };
 
         public static void DisplayAllOptions()
