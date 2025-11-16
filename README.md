@@ -1,3 +1,6 @@
+> [!NOTE]  
+> This app is VERY new, dont expect stability
+
 # Simple File Corrupter (SFC)
 
 SFC is a lightweight console utility written in C# that lets you corrupt files and change their size.
@@ -6,7 +9,7 @@ SFC is a lightweight console utility written in C# that lets you corrupt files a
 
 - Corrupt any file
 - Change a file's size
-- Clean, simple command-line interface
+- Runs on CMD
 - Automatic file size detection
 
 ## How to Use
