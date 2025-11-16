@@ -1,5 +1,5 @@
 > [!NOTE]
-> This app is VERY new — don't expect stability.
+> This app is VERY new - don't expect stability.
 
 # Simple File Corrupter (SFC)
 
