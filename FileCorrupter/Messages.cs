@@ -6,12 +6,18 @@ using System.Threading.Tasks;
 
 namespace FileCorrupter
 {
-    internal class Messages
+    public class Messages
     {
         public static string[] options = new string[]
         {
-            "1. Corrupt",
-            "2. Corrupt and change size (WIP)",
+            "Corruption",
+            "  1. Corrupt with random bytes",
+            "  2. Corrupt with null bytes ",
+            "  3. Corrupt and change size (WIP)",
+            "",
+            "Destroying/Deleting",
+            "  4. Destroy triple-pass",
+            "  5. Extreme destroy (use at your own risk; may take longer depending on your system)",
         };
 
         public static void DisplayAllOptions()
@@ -20,6 +26,16 @@ namespace FileCorrupter
             {
                 Console.WriteLine(option);
             }
+        }
+    }
+
+    public class ConsoleExtensions
+    {
+        public static void WriteLineCustomColor(string text, ConsoleColor color)
+        {
+            Console.ForegroundColor = color;
+            Console.WriteLine(text);
+            Console.ResetColor();
         }
     }
 }

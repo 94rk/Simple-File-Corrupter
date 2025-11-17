@@ -1,13 +1,19 @@
-﻿namespace FileCorrupter
+﻿using System.Threading.Tasks;
+
+namespace FileCorrupter
 {
     internal class Program
     {
         public static Random ran = new();
+        public static bool running = true;
+        public const int optionAmount = 5;
+
         public static string? filePath;
         public static string? fileName;
+
         public static int chosenOption = 0;
+
         public static int sizeMb = 0;
-        public static bool running = true;
 
         static void Main(string[] args)
         {
@@ -56,9 +62,28 @@
                             Corrupt();
                             break;
                         }
+
                     case 2:
                         {
-                            Console.WriteLine("This feature is a work in progress, expect it soon \n");
+                            CorruptWithNulls();
+                            break;
+                        }
+
+                    case 4:
+                        { 
+                            DeleteTriplePass();
+                            break;
+                        }
+
+                    case 5:
+                        {
+                            DeleteExtreme();
+                            break;
+                        }
+
+                    default:
+                        {
+                            Console.WriteLine("This feature is a work in progress, or doesn't exist \n");
                             break;
                         }
                 }
@@ -89,7 +114,88 @@
 
                 long end = DateTimeOffset.Now.ToUnixTimeMilliseconds();
 
-                Console.WriteLine($"Done corrupting {fileName} in {end - start} ms");
+                Console.WriteLine($"\nDone corrupting {fileName} in {FormatHelper.FormatTime((int)(end - start))} \n");
+            }
+        }
+
+        public static void CorruptWithNulls()
+        {
+            byte[]? bytes;
+
+            try { bytes = File.ReadAllBytes(filePath); }
+            catch (IOException) { Console.WriteLine("An error occured, please try again"); return; }
+
+            if (bytes != null)
+            {
+                long start = DateTimeOffset.Now.ToUnixTimeMilliseconds();
+
+                Array.Fill<byte>(bytes, 0);
+
+                File.WriteAllBytes(filePath, bytes);
+
+                long end = DateTimeOffset.Now.ToUnixTimeMilliseconds();
+
+                Console.WriteLine($"\nDone corrupting {fileName} in {FormatHelper.FormatTime((int)(end - start))} \n");
+            }
+        }
+
+        public static async Task DeleteTriplePass()
+        {
+            byte[]? bytes;
+
+            try { bytes = File.ReadAllBytes(filePath); }
+            catch (IOException) { Console.WriteLine("An error occured, please try again"); return; }
+
+            if (bytes != null)
+            {
+                long start = DateTimeOffset.Now.ToUnixTimeMilliseconds();
+
+                for (int i = 0; i < 3; i++)
+                {
+                    Array.Fill<byte>(bytes, (byte)ran.Next(0, 254));
+
+                    File.WriteAllBytes(filePath, bytes);
+                }
+
+                Array.Fill<byte>(bytes, 0);
+                File.WriteAllBytes(filePath, bytes);
+
+                File.Delete(filePath);
+
+                long end = DateTimeOffset.Now.ToUnixTimeMilliseconds();
+
+                Console.WriteLine($"\nDone destroying {fileName} in {FormatHelper.FormatTime((int)(end - start))} \n");
+            }
+        }
+
+        public static async Task DeleteExtreme()
+        {
+            try
+            {
+                byte[] bytes = File.ReadAllBytes(filePath);
+
+                long start = DateTimeOffset.Now.ToUnixTimeMilliseconds();
+
+                // perform 16 random passes
+                for (int i = 0; i < 16; i++)
+                {
+                    ran.NextBytes(bytes);
+                    File.WriteAllBytes(filePath, bytes);
+                }
+
+                // final null pass
+                Array.Fill(bytes, (byte)0);
+                File.WriteAllBytes(filePath, bytes);
+
+                File.Delete(filePath);
+
+                long end = DateTimeOffset.Now.ToUnixTimeMilliseconds();
+
+                Console.WriteLine($"\nDone overwriting {fileName} in {FormatHelper.FormatTime((int)(end - start))} \n");
+            }
+            catch (IOException)
+            {
+                Console.WriteLine("An error occurred, please try again");
             }
         }
 
@@ -97,7 +203,7 @@
         {
             int cache = 0;
 
-            bool succeeded = int.TryParse(choice, out cache) && cache > 0 && cache <= 2;
+            bool succeeded = int.TryParse(choice, out cache) && cache > 0 && cache <= optionAmount;
 
             validBool = succeeded;
             chosenOption = succeeded ? cache : 0;

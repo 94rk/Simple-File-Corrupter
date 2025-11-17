@@ -1,3 +1,5 @@
 <Solution>
-  <Project Path="FileCorrupter/FileCorrupter.csproj" />
+  <Project Path="FileCorrupter/FileCorrupter.csproj">
+    <BuildType Project="Release" />
+  </Project>
 </Solution>
