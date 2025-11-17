@@ -1,5 +1,3 @@
-﻿using System.Threading.Tasks;
-
 namespace FileCorrupter
 {
     internal class Program
@@ -139,7 +137,7 @@ namespace FileCorrupter
             }
         }
 
-        public static async Task DeleteTriplePass()
+        public static void DeleteTriplePass()
         {
             byte[]? bytes;
 
@@ -168,7 +166,7 @@ namespace FileCorrupter
             }
         }
 
-        public static async Task DeleteExtreme()
+        public static void DeleteExtreme()
         {
             try
             {
