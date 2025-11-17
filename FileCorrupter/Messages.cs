@@ -28,14 +28,4 @@ namespace FileCorrupter
             }
         }
     }
-
-    public class ConsoleExtensions
-    {
-        public static void WriteLineCustomColor(string text, ConsoleColor color)
-        {
-            Console.ForegroundColor = color;
-            Console.WriteLine(text);
-            Console.ResetColor();
-        }
-    }
 }

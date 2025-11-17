@@ -3,7 +3,6 @@ namespace FileCorrupter
     internal class Program
     {
         public static bool running = true;
-        public const int optionAmount = 5;
 
         public static string? filePath;
         public static string? fileName;
@@ -44,12 +43,12 @@ namespace FileCorrupter
 
                 bool isChoiceValid = false;
 
-                ValidationHelper.ValidateChoice(Console.ReadLine(), optionAmount, ref isChoiceValid, out chosenOption);
+                ValidationHelper.ValidateChoice(Console.ReadLine(), ref isChoiceValid, out chosenOption);
 
                 while (!isChoiceValid)
                 {
                     Console.Write("Invalid choice! Choose an option: ");
-                    ValidationHelper.ValidateChoice(Console.ReadLine(), optionAmount, ref isChoiceValid, out chosenOption);
+                    ValidationHelper.ValidateChoice(Console.ReadLine(), ref isChoiceValid, out chosenOption);
                 }
 
                 switch (chosenOption)

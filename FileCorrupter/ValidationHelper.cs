@@ -8,8 +8,9 @@ namespace FileCorrupter
 {
     internal class ValidationHelper
     {
+        private const int optionAmount = 7;
 
-        public static void ValidateChoice(string? choice, in int optionAmount, ref bool validBool, out int chosenOption)
+        public static void ValidateChoice(string? choice, ref bool validBool, out int chosenOption)
         {
             int cache = 0;
 
