@@ -1,5 +1,3 @@
-﻿using System.Threading.Tasks;
-
 namespace FileCorrupter
 {
     internal class Program
