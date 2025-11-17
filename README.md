@@ -8,7 +8,7 @@ SFC is a lightweight console utility written in C# that lets you corrupt files a
 ## Features
 
 - Corrupt any file  
-- Change a file's size  
+- Delete a file more securely by adding extra overwrite passes to make recovery harder
 - Runs directly in CMD  
 - Automatic file size detection  
 
