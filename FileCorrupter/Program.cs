@@ -36,7 +36,7 @@ namespace FileCorrupter
                         fileExists = true;
                         fileName = filePath.Substring(fileNameStartPos, fileNameLength);
 
-                        Console.WriteLine("Selected file: " + fileName + "\n");
+                        Console.WriteLine("\nSelected file: " + fileName + "\n");
                     }
                 }
 
