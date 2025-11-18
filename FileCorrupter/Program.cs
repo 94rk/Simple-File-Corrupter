@@ -23,23 +23,25 @@ namespace FileCorrupter
             {
                 while (!fileExists)
                 {
+                    Messages.DisplayHeader();
                     Console.Write("Enter the file path (can drag and drop): ");
                     string? inp = Console.ReadLine();
-                    filePath = inp?.Length > 0 ? inp : filePath;
-                    filePath = filePath.Replace("\"", "");
+                    filePath = !string.IsNullOrWhiteSpace(inp) ? inp.Replace("\"", "") : filePath;
 
                     fileNameStartPos = filePath.LastIndexOf('\\') + 1;
                     fileNameLength = filePath.Length - fileNameStartPos;
 
-                    if (File.Exists(filePath)) fileExists = true;
+                    if (File.Exists(filePath))
+                    {
+                        fileExists = true;
+                        fileName = filePath.Substring(fileNameStartPos, fileNameLength);
+
+                        Console.WriteLine("Selected file: " + fileName + "\n");
+                    }
                 }
 
-                fileName = filePath.Substring(fileNameStartPos, fileNameLength);
-
-                Console.WriteLine("\n" + "Selected file: " + fileName + "\n");
-
                 Messages.DisplayAllOptions();
-                Console.Write("\n" + "Choose an option: ");
+                Console.WriteLine("\n" + "Choose an option: ");
 
                 bool isChoiceValid = false;
 
@@ -62,6 +64,12 @@ namespace FileCorrupter
                     case 2:
                         {
                             CorruptionClass.CorruptNull(filePath, fileName);
+                            break;
+                        }
+
+                    case 3:
+                        {
+                            CorruptionClass.CorruptResize(filePath, fileName);
                             break;
                         }
 

@@ -8,12 +8,24 @@ namespace FileCorrupter
 {
     public class Messages
     {
-        public static string[] options = new string[]
+        private static string[] header = new string[]
+        {
+            " #####  #######  #####  ",
+            "#     # #       #     # ",
+            "#       #       #       ",
+            " #####  #####   #       ",
+            "      # #       #       ",
+            "#     # #       #     # ",
+            " #####  #        #####  ",
+            "",
+        };
+
+        private static string[] options = new string[]
         {
             "Corruption",
             "  1. Corrupt with random bytes",
-            "  2. Corrupt with null bytes ",
-            "  3. Corrupt and change size (WIP)",
+            "  2. Corrupt with null bytes",
+            "  3. Corrupt and change size (buggy, unstable)",
             "",
             "Destroying/Deleting",
             "  4. Destroy triple-pass",
@@ -26,6 +38,18 @@ namespace FileCorrupter
             {
                 Console.WriteLine(option);
             }
+        }
+
+        public static void DisplayHeader()
+        {
+            Console.ForegroundColor = ConsoleColor.Blue;
+
+            foreach (string option in header)
+            {
+                Console.WriteLine(option);
+            }
+
+            Console.ResetColor();
         }
     }
 }

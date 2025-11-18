@@ -9,5 +9,6 @@ namespace FileCorrupter
     internal class Shared
     {
         public static Random random = new();
+        public static int choiceAmount = 5;
     }
 }

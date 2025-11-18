@@ -27,9 +27,13 @@ namespace FileCorrupter
                     File.WriteAllBytes(filePath, bytes);
                 }
 
+                Console.WriteLine("\nStarting...");
                 Array.Fill<byte>(bytes, 0);
+
+                Console.WriteLine("Writing...");
                 File.WriteAllBytes(filePath, bytes);
 
+                Console.WriteLine("Deleting...");
                 File.Delete(filePath);
 
                 long end = DateTimeOffset.Now.ToUnixTimeMilliseconds();
@@ -47,14 +51,18 @@ namespace FileCorrupter
 
                 long start = DateTimeOffset.Now.ToUnixTimeMilliseconds();
 
-                // perform 8 random passes
-                for (int i = 0; i < 8; i++)
+                Console.WriteLine("\nStarting... \n");
+
+                // perform random passes
+                for (int i = 0; i < 6; i++)
                 {
                     Shared.random.NextBytes(bytes);
+                    Console.WriteLine($"Writing iteration {i + 1}...");
                     File.WriteAllBytes(filePath, bytes);
                 }
 
                 // final null pass
+                Console.WriteLine("\nDeleting...");
                 Array.Fill(bytes, (byte)0);
                 File.WriteAllBytes(filePath, bytes);
 

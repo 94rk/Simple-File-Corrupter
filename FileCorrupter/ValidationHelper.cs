@@ -8,16 +8,32 @@ namespace FileCorrupter
 {
     internal class ValidationHelper
     {
-        private const int optionAmount = 7;
-
         public static void ValidateChoice(string? choice, ref bool validBool, out int chosenOption)
         {
             int cache = 0;
 
-            bool succeeded = int.TryParse(choice, out cache) && cache > 0 && cache <= optionAmount;
+            bool succeeded = int.TryParse(choice, out cache) && cache > 0 && cache <= Shared.choiceAmount;
 
             validBool = succeeded;
             chosenOption = succeeded ? cache : 0;
+        }
+
+        public static void ValidateNumber(string inp, out int res)
+        {
+            int.TryParse(inp, out res);
+            return;
+        }
+
+        public static void ValidateNumber(string inp, out float res)
+        {
+            float.TryParse(inp, out res);
+            return;
+        }
+
+        public static void ValidateNumber(string inp, out long res)
+        {
+            long.TryParse(inp, out res);
+            return;
         }
     }
 }
